@@ -4,68 +4,57 @@ import {Component} from 'react'
 
 import './index.css'
 
-class coinToss extends Component {
-  state = {isLogic: true, Heads: 0, Tails: 0, count: 0}
+class CoinToss extends Component {
+  state = {condition: true, total: 0, heads: 0, tails: 0}
 
-  checkTheToss = () => {
-    const {isLogic} = this.state
-    if (isLogic === true) {
-      return (
-        <img
-          src="https://assets.ccbp.in/frontend/react-js/heads-img.png"
-          alt="toss result"
-          className="image"
-        />
-      )
-    }
-    return (
-      <img
-        src="https://assets.ccbp.in/frontend/react-js/tails-img.png"
-        alt="toss result"
-        className="image"
-      />
-    )
-  }
-
-  clicked = () => {
-    const tossResult = Math.floor(Math.random() * 2)
-    console.log(`tossResults:${tossResult}`)
-    if (tossResult === 0) {
+  coinRotate = () => {
+    const randomNumber = Math.ceil(Math.random() * 2)
+    console.log(randomNumber)
+    if (randomNumber === 1) {
       this.setState(prevState => ({
-        isLogic: true,
-        Heads: prevState.Heads + 1,
-        count: prevState.count + 1,
+        condition: true,
+        total: prevState.total + 1,
+        heads: prevState.heads + 1,
+        tails: prevState.tails,
       }))
     } else {
       this.setState(prevState => ({
-        isLogic: false,
-        Tails: prevState.Tails + 1,
-        count: prevState.count + 1,
+        condition: false,
+        total: prevState.total + 1,
+        heads: prevState.heads,
+        tails: prevState.tails + 1,
       }))
     }
   }
 
   render() {
-    const {Heads, Tails, count} = this.state
-    console.log(`Heads:${Heads}`)
-    console.log(`Tails:${Tails}`)
+    const {condition, total, heads, tails} = this.state
     return (
       <div className="main-container">
         <div className="card-container">
           <h1 className="heading">Coin Toss Game</h1>
           <p className="para">Heads (or) Tails</p>
-          {this.checkTheToss()}
-          <button type="button" className="button" onClick={this.clicked}>
+
+          <img
+            src={
+              condition
+                ? 'https://assets.ccbp.in/frontend/react-js/heads-img.png'
+                : 'https://assets.ccbp.in/frontend/react-js/tails-img.png'
+            }
+            alt="toss result"
+          />
+
+          <button type="button" className="button" onClick={this.coinRotate}>
             Toss Coin
           </button>
           <div className="count-container">
-            <p className="total">Total:{count}</p>
-            <p className="total">Heads:{Heads}</p>
-            <p className="total">Tails: {Tails}</p>
+            <p className="total">Total:{total}</p>
+            <p className="total">Heads:{heads}</p>
+            <p className="total">Tails:{tails}</p>
           </div>
         </div>
       </div>
     )
   }
 }
-export default coinToss
+export default CoinToss
